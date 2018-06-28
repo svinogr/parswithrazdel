@@ -18,6 +18,7 @@ public class DBDAO {
         open();
     }
 
+
     public void open() {
         if (dataBaseHelper == null)
             dataBaseHelper = DataBaseHelper.getHelper(context);

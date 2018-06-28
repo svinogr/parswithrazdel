@@ -17,7 +17,7 @@
     <string name="drawer_up_text">Гражданское право</string>
     <string name="subject_mail">Экзамен для мигрантов.</string>
     <string name="email_mail">updevel@gmail.com</string>
-    <string name="data_base_path">/data/data/info.upump.pars/databases/</string>
+    <string name="data_base_path">/data/data/info.upump.parswithrazdel/databases/</string>
     <string name="mail_subject">Тест для мигрантов. Гражданское право</string>
     <string name="checkit">проверь себя</string>
     <string name="label_good_answer">Правильно:</string>

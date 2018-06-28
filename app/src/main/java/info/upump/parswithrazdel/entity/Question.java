@@ -12,9 +12,18 @@ public class Question {
     private int nunber;
     private String body;
     private String img;
+    private String category;
     private List<Answer> answers = new ArrayList();
     private String comment;
     private Part part;
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public Question() {
     }
@@ -73,5 +82,19 @@ public class Question {
 
     public void setPart(Part part) {
         this.part = part;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id=" + id +
+                ", nunber=" + nunber +
+                ", body='" + body + '\'' +
+                ", img='" + img + '\'' +
+                ", category='" + category + '\'' +
+                ", answers=" + answers.size() +
+                ", comment='" + comment + '\'' +
+                ", part=" + part +
+                '}';
     }
 }

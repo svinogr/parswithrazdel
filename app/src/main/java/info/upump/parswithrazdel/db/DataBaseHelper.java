@@ -69,12 +69,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         DB_PATH = context.getString(R.string.data_base_path) + DATABASE_NAME;
     }
 
+
     public static synchronized DataBaseHelper getHelper(Context context) {
         if (instance == null) {
             instance = new DataBaseHelper(context);
         }
         return instance;
     }
+
 
     @Override
     public void onOpen(SQLiteDatabase db) {

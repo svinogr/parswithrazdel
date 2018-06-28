@@ -42,6 +42,27 @@ public class QuestionDAO extends DBDAO {
 
         return database.insert(DataBaseHelper.TABLE_QUESTION, null, cv);
     }
+    public long save(Question question, int cat) {
+        ContentValues cv = new ContentValues();
+        if(question.getBody() == null){
+            return 0;
+        }
+        cv.put(DataBaseHelper.TABLE_KEY_BODY, question.getBody().toLowerCase());
+        if (question.getImg() != null) {
+            cv.put(DataBaseHelper.TABLE_KEY_IMG, question.getImg().toLowerCase());
+        } else {
+            cv.put(DataBaseHelper.TABLE_KEY_IMG, question.getImg());
+        }
+
+        cv.put(DataBaseHelper.TABLE_KEY_CATEGORY, cat);
+        if (question.getComment() != null) {
+            cv.put(DataBaseHelper.TABLE_KEY_COMMENT, question.getComment().toLowerCase());
+        } else {
+            cv.put(DataBaseHelper.TABLE_KEY_COMMENT, question.getComment());
+        }
+
+        return database.insert(DataBaseHelper.TABLE_QUESTION, null, cv);
+    }
 
     public long update(Question question) {
         ContentValues cv = new ContentValues();
@@ -142,5 +163,47 @@ public class QuestionDAO extends DBDAO {
     private String stringToUpperCase(String s) {
         return s != null && s.length() != 0 ? s.substring(0, 1).toUpperCase() + s.substring(1) : null;
     }
+
+    public List<Question> getQuestions() {
+        Cursor cursor = null;
+        List<Question> questions = new ArrayList<>();
+        try {
+            cursor = database.query(DataBaseHelper.TABLE_QUESTION,
+                    new String[]{
+                            DataBaseHelper.TABLE_KEY_ID,
+                            DataBaseHelper.TABLE_KEY_BODY,
+                            DataBaseHelper.TABLE_KEY_CATEGORY,
+                            DataBaseHelper.TABLE_KEY_IMG,
+                            DataBaseHelper.TABLE_KEY_COMMENT},
+                    null, null, null, null, null
+            );
+            if (cursor.moveToFirst()) {
+                do {
+                    Question question = new Question();
+                    question.setId(cursor.getInt(0));
+                    question.setBody(stringToUpperCase(cursor.getString(1)));
+                    question.setCategory(stringToUpperCase(cursor.getString(2)));
+                    question.setImg(cursor.getString(3));
+                    question.setComment(stringToUpperCase(cursor.getString(4)));
+                    questions.add(question);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        AnswerDAO answerDAO = new AnswerDAO(context);
+        for (Question q : questions) {
+            List<Answer> answers = answerDAO.getAnswerByParentId(q.getId());
+            q.getAnswers().addAll(answers);
+        }
+
+        return questions;
+    }
+
+
 
 }
